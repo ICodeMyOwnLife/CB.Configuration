@@ -3,11 +3,11 @@
 
 namespace CB.Configuration.Common
 {
-    public class ConfigurationReader<TConfigurationSection>
+    public class ConfigurationBase<TConfigurationSection>
         where TConfigurationSection: ConfigurationSection, new()
     {
         #region  Constructors & Destructor
-        public ConfigurationReader(string configSectionName)
+        public ConfigurationBase(string configSectionName)
         {
             ConfigurationSection = (TConfigurationSection)ConfigurationManager.GetSection(configSectionName) ??
                                    new TConfigurationSection();
