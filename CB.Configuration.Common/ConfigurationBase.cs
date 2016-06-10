@@ -27,10 +27,24 @@ namespace CB.Configuration.Common
 
 
         #region Methods
-        public void Save(ConfigurationUserLevel userLevel = ConfigurationUserLevel.None)
-        {
-            var config = ConfigurationManager.OpenExeConfiguration(userLevel);
+        public void SaveExeConfiguration(ConfigurationUserLevel userLevel = ConfigurationUserLevel.None)
+            => SaveConfiguration(ConfigurationManager.OpenExeConfiguration(userLevel));
 
+        public void SaveMachineConfiguration()
+            => SaveConfiguration(ConfigurationManager.OpenMachineConfiguration());
+
+        public void SaveMappedExeConfiguration(ExeConfigurationFileMap fileMap,
+            ConfigurationUserLevel userLevel = ConfigurationUserLevel.None, bool preLoad = false)
+            => SaveConfiguration(ConfigurationManager.OpenMappedExeConfiguration(fileMap, userLevel, preLoad));
+
+        public void SaveMappedMachineConfiguration(ConfigurationFileMap fileMap)
+            => SaveConfiguration(ConfigurationManager.OpenMappedMachineConfiguration(fileMap));
+        #endregion
+
+
+        #region Implementation
+        private void SaveConfiguration(System.Configuration.Configuration config)
+        {
             var configurationSection = config.Sections[_configSectionName] as TConfigurationSection;
             if (configurationSection != null)
             {
